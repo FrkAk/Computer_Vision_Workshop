@@ -14,7 +14,7 @@ def show(name, img, x, y):
     cv2.namedWindow(name)
     cv2.moveWindow(name, windowStartX + w * x, windowStartY + h * y)
     cv2.imshow(name, img)
-    cv2.waitKey(0)
+    # cv2.waitKey(0)
 
 
 def harrisResponseImage(img):
@@ -138,8 +138,8 @@ def harrisEdges(input, response, edge_threshold=-0.01):
     ##
     ## Don't generate edges at the image border.
     result = input.copy()
-    for y in range(1, response.shape[0] - 1):
-        for x in range(1, response.shape[1] - 1):
+    for y in range(1,response.shape[0]-1):
+        for x in range(1,response.shape[1]-1):
             if response[y, x] < edge_threshold:
 
                 n1 = response[y + 1, x - 1]
