@@ -104,35 +104,27 @@ def harrisKeypoints(response, threshold=0.1):
     ## Note: Keypoints are stored with (x,y) and images are accessed with (y,x)!!
     points = []
 
-    for y in range(response.shape[0]):
-        for x in range(response.shape[1]):
+    for y in range(1, response.shape[0] - 1):
+        for x in range(1, response.shape[1] - 1):
             if response[y, x] > threshold:
-                idx_map = {"n1": (y + 1, x - 1),
-                           "n2": (y + 1, x),
-                           "n3": (y + 1, x + 1),
-                           "n4": (y, x - 1),
-                           "n5": (y, x + 1),
-                           "n6": (y - 1, x - 1),
-                           "n7": (y - 1, x),
-                           "n8": (y - 1, x + 1)}
-
                 n1 = response[y + 1, x - 1]
                 n2 = response[y + 1, x]
                 n3 = response[y + 1, x + 1]
 
                 n4 = response[y, x - 1]
-                n5 = response[y, x + 1]
+                n5 = response[y, x]
+                n6 = response[y, x + 1]
 
-                n6 = response[y - 1, x - 1]
-                n7 = response[y - 1, x]
-                n8 = response[y - 1, x + 1]
+                n7 = response[y - 1, x - 1]
+                n8 = response[y - 1, x]
+                n9 = response[y - 1, x + 1]
 
-                n = [n1, n2, n3, n4, n5, n6, n7, n8]
+                n = [n1, n2, n3, n4, n5, n6, n7, n8, n9]
 
                 idx_pos = np.argmax(n)
-                idx = idx_map.get('n' + str(idx_pos + 1))
 
-                points.append(cv2.KeyPoint(idx[1], idx[0], 1))
+                if idx_pos == 4:
+                    points.append(cv2.KeyPoint(x, y, 1))
 
     return points
 
@@ -146,6 +138,32 @@ def harrisEdges(input, response, edge_threshold=-0.01):
     ##
     ## Don't generate edges at the image border.
     result = input.copy()
+    for y in range(1, response.shape[0] - 1):
+        for x in range(1, response.shape[1] - 1):
+            if response[y, x] < edge_threshold:
+
+                n1 = response[y + 1, x - 1]
+                n2 = response[y + 1, x]
+                n3 = response[y + 1, x + 1]
+
+                n4 = response[y, x - 1]
+                n5 = response[y, x]
+                n6 = response[y, x + 1]
+
+                n7 = response[y - 1, x - 1]
+                n8 = response[y - 1, x]
+                n9 = response[y - 1, x + 1]
+
+                n = [n1, n2, n3, n4, n5, n6, n7, n8, n9]
+                ny = [n2,n5,n8]
+                nx = [n4,n5,n6]
+
+                idx_pos = np.argmin(n)
+                idx_pos_y = np.argmin(ny)
+                idx_pos_x = np.argmin(nx)
+
+                if idx_pos_y == 1 | idx_pos_x == 1:
+                    result[y, x] = (0, 0, 255)
 
     return result
 
