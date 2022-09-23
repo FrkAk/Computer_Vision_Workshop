@@ -15,7 +15,7 @@ def matchknn2(descriptors1, descriptors2):
     m = descriptors2.shape[0]
     knnmatches = [[0] * 2 for i in range(k)]
     print(len(knnmatches), len(knnmatches[0]))
-    ## TODO 2.1
+    ## 2.1
     ## Find the two nearest neighbors for every descriptor in image 1.
 
     ## For a given descriptor i in image 1:
@@ -41,7 +41,7 @@ def matchknn2(descriptors1, descriptors2):
 def ratioTest(knnmatches, ratio_threshold):
     matches = []
 
-    ## TODO 2.2
+    ##2.2
     ## Compute the ratio between the nearest and second nearest neighbor.
     ## Add the nearest neighbor to the output matches if the ratio is smaller than ratio_threshold.
     # if SOLUTION >= 2

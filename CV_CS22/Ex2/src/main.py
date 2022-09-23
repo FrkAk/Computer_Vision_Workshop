@@ -12,7 +12,7 @@ IMAGE_DIR = '../data/'
 
 
 def main():
-    # testHomography()
+    testHomography()
 
     ## =========== Loading ===========
 
