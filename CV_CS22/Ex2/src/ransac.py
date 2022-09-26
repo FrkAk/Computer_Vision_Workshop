@@ -19,6 +19,7 @@ def numInliers(points1, points2, H, threshold):
         qix = points2[i][0]
         qiy = points2[i][1]
 
+        s = points2[i] - H * points1[i]
         projection_x = (pix, qix)
         projection_y = (piy, qiy)
         value_x = np.abs(qix - H * pix)
